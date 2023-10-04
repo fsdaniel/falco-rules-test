@@ -597,6 +597,7 @@
     Detect any attempt to get a secret. Service account tokens are excluded.
   condition: >
     secret and kget
+    and non_system_user and not ka.user.name in (allowed_k8s_users) and not ka.user.name in (eks_allowed_k8s_users)
     and kactivity
     and response_successful
   output: K8s Secret Get Successfully (user=%ka.user.name secret=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
