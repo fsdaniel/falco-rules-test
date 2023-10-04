@@ -464,14 +464,6 @@
 - macro: kactivity
   condition: (kevt and consider_activity_events)
 
-- rule: K8s Deployment Created
-  desc: Detect any attempt to create a deployment
-  condition: (kactivity and kcreate and deployment and response_successful)
-  output: K8s Deployment Created (user=%ka.user.name deployment=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
-  priority: INFO
-  source: k8s_audit
-  tags: [k8s]
-
 - rule: K8s Deployment Deleted
   desc: Detect any attempt to delete a deployment
   condition: (kactivity and kdelete and deployment and response_successful)
@@ -480,26 +472,10 @@
   source: k8s_audit
   tags: [k8s]
 
-- rule: K8s Service Created
-  desc: Detect any attempt to create a service
-  condition: (kactivity and kcreate and service and response_successful)
-  output: K8s Service Created (user=%ka.user.name service=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
-  priority: INFO
-  source: k8s_audit
-  tags: [k8s]
-
 - rule: K8s Service Deleted
   desc: Detect any attempt to delete a service
   condition: (kactivity and kdelete and service and response_successful)
   output: K8s Service Deleted (user=%ka.user.name service=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
-  priority: INFO
-  source: k8s_audit
-  tags: [k8s]
-
-- rule: K8s ConfigMap Created
-  desc: Detect any attempt to create a configmap
-  condition: (kactivity and kcreate and configmap and response_successful)
-  output: K8s ConfigMap Created (user=%ka.user.name configmap=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
   priority: INFO
   source: k8s_audit
   tags: [k8s]
@@ -576,32 +552,11 @@
   source: k8s_audit
   tags: [k8s]
 
-- rule: K8s Secret Created
-  desc: Detect any attempt to create a secret. Service account tokens are excluded.
-  condition: (kactivity and kcreate and secret and ka.target.namespace!=kube-system and non_system_user and response_successful)
-  output: K8s Secret Created (user=%ka.user.name secret=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
-  priority: INFO
-  source: k8s_audit
-  tags: [k8s]
-
 - rule: K8s Secret Deleted
   desc: Detect any attempt to delete a secret. Service account tokens are excluded.
   condition: (kactivity and kdelete and secret and ka.target.namespace!=kube-system and non_system_user and response_successful)
   output: K8s Secret Deleted (user=%ka.user.name secret=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
   priority: INFO
-  source: k8s_audit
-  tags: [k8s]
-
-- rule: K8s Secret Get Successfully
-  desc: >
-    Detect any attempt to get a secret. Service account tokens are excluded.
-  condition: >
-    secret and kget
-    and non_system_user and not ka.user.name in (allowed_k8s_users) and not ka.user.name in (eks_allowed_k8s_users)
-    and kactivity
-    and response_successful
-  output: K8s Secret Get Successfully (user=%ka.user.name secret=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
-  priority: ERROR
   source: k8s_audit
   tags: [k8s]
 
