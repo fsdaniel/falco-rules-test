@@ -1,0 +1,2 @@
+- list: falco_binaries
+  items: [falcoctl]
