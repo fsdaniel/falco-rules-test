@@ -45,6 +45,7 @@
     "system:addon-manager",
     "cloud-controller-manager",
     "system:kube-controller-manager",
+    "kube-admin",
     "true-system:teleport-03795-sebastiaan-playground"
     ]
 
