@@ -271,8 +271,8 @@
 # separate event than the actual exec/attach to the pod.
 
 - macro: user_known_exec_pod_activities
-  condition: >
-  (ka.uri.param[command] contains "tridentctl")
+  condition: (k8s_audit_never_true)
+  #(ka.uri.param[command] contains "tridentctl")
   # condition: (k8s_audit_never_true)
 
 - rule: Attach/Exec Pod
