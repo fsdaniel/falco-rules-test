@@ -360,7 +360,7 @@
     registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-coredns-coredns,
     registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-flannel-flannel,
     registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-metrics-server,
-    quay.io/coreos/kube-state-metrics:,
+    quay.io/coreos/kube-state-metrics,
     rancher/coreos-flannel,
     rancher/hyperkube,
     rancher/mirrored-calico-kube-controllers,
