@@ -271,7 +271,9 @@
 # separate event than the actual exec/attach to the pod.
 
 - macro: user_known_exec_pod_activities
-  condition: (k8s_audit_never_true)
+  condition: >
+  (ka.uri.param[command] contains "tridentctl")
+  # condition: (k8s_audit_never_true)
 
 - rule: Attach/Exec Pod
   desc: >
@@ -348,6 +350,24 @@
     registry.k8s.io/k8s-dns-sidecar-amd64,
     registry.k8s.io/metrics-server-amd64,
     kope/kube-apiserver-healthcheck,
+    gcr.io/kubernetes-helm/tiller,
+    k8s.gcr.io/autoscaling/vpa-admission-controller,
+    k8s.gcr.io/autoscaling/vpa-recommender,
+    k8s.gcr.io/autoscaling/vpa-updater,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/hyperkube,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-calico-kube-controllers,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-calico-node,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-coredns-coredns,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-flannel-flannel,
+    registry.services.k8s.true.nl/rancher-mirror/rancher/mirrored-metrics-server,
+    quay.io/coreos/kube-state-metrics:,
+    rancher/coreos-flannel,
+    rancher/hyperkube,
+    rancher/mirrored-calico-kube-controllers,
+    rancher/mirrored-calico-node,
+    rancher/mirrored-cluster-proportional-autoscaler,
+    rancher/mirrored-coredns-coredns,
+    rancher/mirrored-metrics-server,
     k8s_image_list
   ]
 
@@ -391,7 +411,12 @@
     resourcequota-controller,
     root-ca-cert-publisher,
     service-account-controller,
-    statefulset-controller
+    statefulset-controller,
+    kube-state-metrics,
+    vpa-updater,
+    vpa-admission-controller,
+    calico-kube-controllers,
+    canal
   ]
 
 - macro: trusted_sa
