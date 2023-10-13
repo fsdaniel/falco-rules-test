@@ -387,7 +387,8 @@
 - list: user_known_sa_list
   items: [
     canal,
-    "system:serviceaccount:kube-system:canal"
+    "system:serviceaccount:kube-system:canal",
+    "system:node"
   ]
 
 - list: known_sa_list
