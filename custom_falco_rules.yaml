@@ -421,7 +421,8 @@
     vpa-updater,
     vpa-admission-controller,
     calico-kube-controllers,
-    canal
+    canal,
+    "system:node"
   ]
 
 - macro: trusted_sa
