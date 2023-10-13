@@ -386,7 +386,7 @@
 
 - list: user_known_sa_list
   items: [
-  canal
+    canal
   ]
 
 - list: known_sa_list
