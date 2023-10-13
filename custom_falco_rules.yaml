@@ -385,7 +385,9 @@
   tags: [k8s]
 
 - list: user_known_sa_list
-  items: []
+  items: [
+  canal
+  ]
 
 - list: known_sa_list
   items: [
