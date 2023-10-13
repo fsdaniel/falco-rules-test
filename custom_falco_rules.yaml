@@ -46,7 +46,8 @@
     "cloud-controller-manager",
     "system:kube-controller-manager",
     "kube-admin",
-    "true-system:teleport-03795-sebastiaan-playground"
+    "true-system:teleport-03795-sebastiaan-playground",
+    "system:node"
     ]
 
 - list: eks_allowed_k8s_users
