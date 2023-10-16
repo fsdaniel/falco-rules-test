@@ -435,7 +435,7 @@
 # Detect creating a service account in the kube-system/kube-public namespace
 - rule: Service Account Created in Kube Namespace
   desc: Detect any attempt to create a serviceaccount in the kube-system or kube-public namespaces
-  condition: kevt and serviceaccount and kcreate and ka.target.namespace in (kube-system, kube-public) and response_successful and not trusted_sa and not (ka.user.name startswith "system:")
+  condition: kevt and serviceaccount and kcreate and ka.target.namespace in (kube-system, kube-public) and response_successful and not trusted_sa and not ka.user.name in (system:node)
   output: Service account created in kube namespace (user=%ka.user.name serviceaccount=%ka.target.name resource=%ka.target.resource ns=%ka.target.namespace)
   priority: WARNING
   source: k8s_audit
@@ -542,7 +542,7 @@
 
 - rule: K8s Serviceaccount Created
   desc: Detect any attempt to create a service account
-  condition: (kactivity and kcreate and serviceaccount and response_successful and not (ka.user.name startswith "system:"))
+  condition: (kactivity and kcreate and serviceaccount and response_successful and not ka.user.name in (system:node)
   output: K8s Serviceaccount Created (user=%ka.user.name serviceaccount=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
   priority: INFO
   source: k8s_audit
