@@ -272,15 +272,14 @@
 # as the event that creates the pod (which has the images) is a
 # separate event than the actual exec/attach to the pod.
 
+# items comma separated list of entrypoints that are allowed to exec/attach to a pod
 - list: user_known_exec_pod_entrypoint
   items: [tridentctl]
 
 - macro: user_known_exec_pod_activities
   condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
-  #(ka.uri.param[command] contains "tridentctl")
-  # condition: (k8s_audit_never_true)
 
-- rule: Attach/Exec Pod (mod)
+- rule: Attach/Exec Pod
   desc: >
     Detect any attempt to attach/exec to a pod
   condition: kevt_started and pod_subresource and kcreate and ka.target.subresource in (exec,attach) and not user_known_exec_pod_activities
