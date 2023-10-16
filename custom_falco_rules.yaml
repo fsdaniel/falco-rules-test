@@ -540,7 +540,7 @@
   source: k8s_audit
   tags: [k8s]
 
-- rule: K8s Serviceaccount Created
+- rule: K8s Serviceaccount Created (verify rule change)
   desc: Detect any attempt to create a service account
   condition: (kactivity and kcreate and serviceaccount and response_successful and not ka.user.name in (system:node)
   output: K8s Serviceaccount Created (user=%ka.user.name serviceaccount=%ka.target.name ns=%ka.target.namespace resource=%ka.target.resource resp=%ka.response.code decision=%ka.auth.decision reason=%ka.auth.reason)
