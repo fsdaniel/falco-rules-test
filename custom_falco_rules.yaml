@@ -276,7 +276,7 @@
   items: [tridentctl]
 
 - macro: user_known_exec_pod_activities
-  condition: ka.uri.param[command] in (k8s_audit_never_true)
+  condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
   #(ka.uri.param[command] contains "tridentctl")
   # condition: (k8s_audit_never_true)
 
