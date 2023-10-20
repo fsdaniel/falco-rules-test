@@ -1,4 +1,6 @@
 #file: noinspection YAMLSchemaValidation
-- macro: user_known_exec_pod_activities
-  condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
+- list: user_known_exec_pod_entrypoint
+  items: [
+    tridentctl
+  ]
   append: true
