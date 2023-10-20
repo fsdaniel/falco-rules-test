@@ -29,7 +29,7 @@
 - macro: kevt
   condition: (jevt.value[/stage] in (k8s_audit_stages))
 
-- macro: kevt_started
+- macro: kevt_startedx
   condition: (jevt.value[/stage]=ResponseStarted)
 
 # If you wish to restrict activity to a specific set of users, override/append to this list.
