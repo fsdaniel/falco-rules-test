@@ -6,39 +6,24 @@ on:
       - main  # Adjust this to the branch you want to trigger the workflow
 
 jobs:
-  run-falco:
+  run-validate-rules:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Set up Docker
-      #   uses: docker/setup-action@v2
-      #   with:
-      #     registry-url: https://ghcr.io
-      #     registry-username: ${{ github.actor }}
-      #     registry-password: ${{ secrets.CR_PAT }}
-
       - name: Validate rules
-        id: run-falco
+        id: run-validate-rules
         run: |
           docker run -e FALCO_BPF_PROBE="" -v ${{ github.workspace }}/global_falco_rules.yaml:/etc/falco/global_falco_rules.yaml -v ${{ github.workspace }}/custom_falco_rules.local.yaml:/etc/falco/custom_falco_rules.local.yaml -v ${{ github.workspace }}/falco-config.yaml:/etc/falco/falco.yaml -e SYSDIG_SKIP_LOAD=1 falcosecurity/falco-no-driver:0.35.1 /usr/bin/falco --disable-source=syscall --validate /etc/falco/global_falco_rules.yaml --validate /etc/falco/custom_falco_rules.local.yaml
           # DOCKER_OUTPUT=$(docker run -e FALCO_BPF_PROBE="" -v ${{ github.workspace }}/global_falco_rules.yaml:/etc/falco/global_falco_rules.yaml -v ${{ github.workspace }}/custom_falco_rules.local.yaml:/etc/falco/custom_falco_rules.local.yaml -v ${{ github.workspace }}/falco-config.yaml:/etc/falco/falco.yaml -e SYSDIG_SKIP_LOAD=1 falcosecurity/falco-no-driver:0.35.1 /usr/bin/falco --disable-source=syscall --validate /etc/falco/global_falco_rules.yaml --validate /etc/falco/custom_falco_rules.local.yaml 2>&1)
           # echo "$DOCKER_OUTPUT"
 
-
-      - name: Check Falco exit code
-        run: |
-          if [ ${{ steps.run-falco.outcome }} == "failure" ]; then
-            echo "Falco execution failed."
-            exit 1
-          fi
-
   Release-Rulesfile:
-    needs: run-falco
+    needs: run-validate-rules
     runs-on: ubuntu-latest
-    if: success()  # Only run if the "run-falco" job succeeds
+    if: success()  # Only run if the "run-validate-rules" job succeeds
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
