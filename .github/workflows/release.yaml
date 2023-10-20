@@ -23,6 +23,7 @@ jobs:
       - name: Run Falco
         id: run-falco
         run: |
+          docker run -e FALCO_BPF_PROBE="" -v ${{ github.workspace }}/global_falco_rules.yaml:/etc/falco/global_falco_rules.yaml -v ${{ github.workspace }}/custom_falco_rules.local.yaml:/etc/falco/custom_falco_rules.local.yaml -v ${{ github.workspace }}/falco-config.yaml:/etc/falco/falco.yaml -e SYSDIG_SKIP_LOAD=1 falcosecurity/falco-no-driver:0.35.1 /usr/bin/falco --disable-source=syscall --validate /etc/falco/global_falco_rules.yaml --validate /etc/falco/custom_falco_rules.local.yaml
           DOCKER_OUTPUT=$(docker run -e FALCO_BPF_PROBE="" -v ${{ github.workspace }}/global_falco_rules.yaml:/etc/falco/global_falco_rules.yaml -v ${{ github.workspace }}/custom_falco_rules.local.yaml:/etc/falco/custom_falco_rules.local.yaml -v ${{ github.workspace }}/falco-config.yaml:/etc/falco/falco.yaml -e SYSDIG_SKIP_LOAD=1 falcosecurity/falco-no-driver:0.35.1 /usr/bin/falco --disable-source=syscall --validate /etc/falco/global_falco_rules.yaml --validate /etc/falco/custom_falco_rules.local.yaml 2>&1)
           echo "$DOCKER_OUTPUT"
           
