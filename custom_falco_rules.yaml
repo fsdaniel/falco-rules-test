@@ -274,7 +274,7 @@
 
 # items comma separated list of entrypoints that are allowed to exec/attach to a pod
 - list: user_known_exec_pod_entrypoint
-  items: [tridentctl]
+  items: []
 
 - macro: user_known_exec_pod_activities
   condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
