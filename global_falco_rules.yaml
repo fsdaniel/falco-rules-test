@@ -23,7 +23,8 @@
 # This macro selects the set of Audit Events used by the below rules.
 - macro: kevt
   condition: (jevt.value[/stage] in (k8s_audit_stages))
-
+- macro: kcreate
+  condition: ka.verb=create
 - macro: kevt_started
   condition: (jevt.value[/stage]=ResponseStarted)
 
