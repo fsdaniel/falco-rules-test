@@ -47,7 +47,7 @@
 - macro: user_known_exec_pod_activities
   condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
 
-- rule: Attach/Exec Pod
+- rule: Attach/Exec Pod (True)
   desc: >
     Detect any attempt to attach/exec to a pod
   condition: kevt_started and pod_subresource and kcreate and ka.target.subresource in (exec,attach) and not user_known_exec_pod_activities
