@@ -1,9 +1,48 @@
----
-name: Release Rulesfile
-on: push
+name: Run Falco with Custom Rules and Release Rulesfile
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to the branch you want to trigger the workflow
+
 jobs:
-  Release-Rulesfile:
+  run-falco:
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-action@v2
+        with:
+          registry-url: https://ghcr.io
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.CR_PAT }}
+
+      - name: Run Falco
+        id: run-falco
+        run: |
+          DOCKER_OUTPUT=$(docker run -e FALCO_BPF_PROBE="" -v ${{ github.workspace }}/rules.yaml:/etc/falco/rules.yaml -v ${{ github.workspace }}/falco-config.yaml:/etc/falco/falco.yaml -e SYSDIG_SKIP_LOAD=1 falcosecurity/falco-no-driver:0.35.1 /usr/bin/falco --disable-source=syscall --validate /etc/falco/rules.yaml 2>&1)
+          echo "$DOCKER_OUTPUT"
+          
+          if [[ $DOCKER_OUTPUT == *"Error"* ]]; then
+            echo "Error found in Falco output"
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Check Falco exit code
+        run: |
+          if [ ${{ steps.run-falco.outcome }} == "failure" ]; then
+            echo "Falco execution failed."
+            exit 1
+          fi
+
+  Release-Rulesfile:
+    needs: run-falco
+    runs-on: ubuntu-latest
+    if: success()  # Only run if the "run-falco" job succeeds
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
@@ -15,7 +54,7 @@ jobs:
       # Only one ruleset file for our demo
       RULESET_FILE: custom_falco_rules.local.yaml
       GLOBALS_FILE: global_falco_rules.yaml
-      # Used to setup Auth and OCI artifact location
+      # Used to set up Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
       # look something like ghcr.io/user/repo/custom-rules:main
