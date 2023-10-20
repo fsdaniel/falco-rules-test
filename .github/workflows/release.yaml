@@ -13,7 +13,7 @@ jobs:
 
     env:
       # Only one ruleset file for our demo
-      RULESET_FILE: custom_falco_rules.yaml
+      RULESET_FILE: custom_falco_rules.local.yaml
       GLOBALS_FILE: global_falco_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
