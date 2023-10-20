@@ -1,0 +1,4 @@
+#file: noinspection YAMLSchemaValidation
+- macro: user_known_exec_pod_activities
+  condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
+  append: true
