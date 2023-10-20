@@ -1,6 +1,7 @@
 #file: noinspection YAMLSchemaValidation
 - list: user_known_exec_pod_entrypoint
   items: [
-    tridentctl
+    tridentctl,
+    daniel
   ]
   append: true
