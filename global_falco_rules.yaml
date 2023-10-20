@@ -41,11 +41,11 @@
 - macro: pod_subresource
   condition: ka.target.resource=pods and ka.target.subresource exists
 
-- list: user_known_exec_pod_entrypoint
+- list: user_known_exec_pod_entrypoint_true
   items: [tridentctl]
 
 - macro: user_known_exec_pod_activities_true
-  condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint)
+  condition: ka.uri.param[command] in (user_known_exec_pod_entrypoint_true)
 
 - rule: Attach/Exec Pod (True)
   desc: >
