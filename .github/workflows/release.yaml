@@ -13,12 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker/setup-action@v2
-        with:
-          registry-url: https://ghcr.io
-          registry-username: ${{ github.actor }}
-          registry-password: ${{ secrets.CR_PAT }}
+      # - name: Set up Docker
+      #   uses: docker/setup-action@v2
+      #   with:
+      #     registry-url: https://ghcr.io
+      #     registry-username: ${{ github.actor }}
+      #     registry-password: ${{ secrets.CR_PAT }}
 
       - name: Run Falco
         id: run-falco
